@@ -1,0 +1,39 @@
+keycloak:
+  resource: Progetto-piattaforme
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8443/auth/realms
+          issuer-uri: http://localhost:8443/auth/realms
+  application:
+    name: ProgettoPiattaforme
+  datasource:
+    password: base
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  auth:
+    converter:
+      resource-id: fakestore-flutter
+      principle-attribute: preferred_username
+
+server:
+  #ssl:
+  #key-store-password: password_certificate
+  #key-store-type: PKCS12
+  #key-store: /home/debian/ssl-cert/certificate.p12
+  compression:
+    enabled: 'true'
+  port: '8081'
+
+  #security:
+  #require-ssl: 'true'
+
+
