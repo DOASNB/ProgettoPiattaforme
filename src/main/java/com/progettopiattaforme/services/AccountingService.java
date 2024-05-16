@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import support.exceptions.MailUserAlreadyExistsException;
+import com.progettopiattaforme.support.exceptions.MailUserAlreadyExistsException;
 
 import java.util.List;
 

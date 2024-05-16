@@ -1,4 +1,4 @@
-package support;
+package com.progettopiattaforme.support;
 
 
 public class ResponseMessage {

@@ -1,4 +1,4 @@
-package support.exceptions;
+package com.progettopiattaforme.support.exceptions;
 
 
 public class BarCodeAlreadyExistException extends Exception {

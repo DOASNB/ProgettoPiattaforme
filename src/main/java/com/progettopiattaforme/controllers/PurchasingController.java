@@ -12,10 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import support.ResponseMessage;
-import support.exceptions.DateWrongRangeException;
-import support.exceptions.QuantityProductUnavailableException;
-import support.exceptions.UserNotFoundException;
+import com.progettopiattaforme.support.ResponseMessage;
+import com.progettopiattaforme.support.exceptions.DateWrongRangeException;
+import com.progettopiattaforme.support.exceptions.QuantityProductUnavailableException;
+import com.progettopiattaforme.support.exceptions.UserNotFoundException;
 
 import java.util.Date;
 import java.util.List;

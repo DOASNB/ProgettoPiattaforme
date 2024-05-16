@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import support.ResponseMessage;
-import support.exceptions.BarCodeAlreadyExistException;
+import com.progettopiattaforme.support.ResponseMessage;
+import com.progettopiattaforme.support.exceptions.BarCodeAlreadyExistException;
 
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class ProductsController {
     private ProductService productService;
 
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity create(@RequestBody @Valid Product product) {
         try {
             productService.addProduct(product);
@@ -54,6 +54,12 @@ public class ProductsController {
         if ( result.size() <= 0 ) {
             return new ResponseEntity<>(new ResponseMessage("No results!"), HttpStatus.OK);
         }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/prova")
+    public ResponseEntity prova(@RequestParam int id) {
+        String result = "yesss";
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

@@ -1,4 +1,4 @@
-package support.authentication;
+package com.progettopiattaforme.support.authentication;
 
 
 import org.springframework.beans.factory.annotation.Value;
