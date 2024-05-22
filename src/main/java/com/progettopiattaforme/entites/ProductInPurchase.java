@@ -21,7 +21,7 @@ public class ProductInPurchase {
     @JoinColumn(name = "related_purchase")
     @JsonIgnore
     @ToString.Exclude
-    private Purchase purchase;
+    private Order order;
 
     @Basic
     @Column(name = "quantity", nullable = true)

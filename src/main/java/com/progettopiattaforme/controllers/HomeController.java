@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.progettopiattaforme.support.authentication.Utils;
+import com.progettopiattaforme.security.authentication.Utils;
 
 
 @RestController

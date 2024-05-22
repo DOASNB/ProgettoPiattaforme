@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.progettopiattaforme.support.exceptions.BarCodeAlreadyExistException;
+import com.progettopiattaforme.security.exceptions.BarCodeAlreadyExistException;
 
 import java.util.ArrayList;
 import java.util.List;

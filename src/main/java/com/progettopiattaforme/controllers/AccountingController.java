@@ -2,14 +2,14 @@ package com.progettopiattaforme.controllers;
 
 
 import com.progettopiattaforme.entites.User;
-import com.progettopiattaforme.support.exceptions.MailUserAlreadyExistsException;
+import com.progettopiattaforme.security.exceptions.MailUserAlreadyExistsException;
 import com.progettopiattaforme.services.AccountingService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.progettopiattaforme.support.ResponseMessage;
+import com.progettopiattaforme.security.ResponseMessage;
 
 import java.util.List;
 

@@ -40,6 +40,9 @@ public class Product {
     @Column(name = "quantity", nullable = true)
     private int quantity;
 
+    @Enumerated
+    @Column(name = "category", nullable = true, length = 50)
+
     @OneToMany(targetEntity = ProductInPurchase.class, mappedBy = "product", cascade = CascadeType.MERGE)
     @JsonIgnore
     @ToString.Exclude

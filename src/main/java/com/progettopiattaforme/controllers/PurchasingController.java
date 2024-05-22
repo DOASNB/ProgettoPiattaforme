@@ -2,7 +2,7 @@ package com.progettopiattaforme.controllers;
 
 
 
-import com.progettopiattaforme.entites.Purchase;
+import com.progettopiattaforme.entites.Order;
 import com.progettopiattaforme.entites.User;
 import com.progettopiattaforme.services.PurchasingService;
 import jakarta.validation.Valid;
@@ -12,17 +12,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import com.progettopiattaforme.support.ResponseMessage;
-import com.progettopiattaforme.support.exceptions.DateWrongRangeException;
-import com.progettopiattaforme.support.exceptions.QuantityProductUnavailableException;
-import com.progettopiattaforme.support.exceptions.UserNotFoundException;
+import com.progettopiattaforme.security.ResponseMessage;
+import com.progettopiattaforme.security.exceptions.DateWrongRangeException;
+import com.progettopiattaforme.security.exceptions.QuantityProductUnavailableException;
+import com.progettopiattaforme.security.exceptions.UserNotFoundException;
 
 import java.util.Date;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/purchases")
+@RequestMapping("/orders")
 public class PurchasingController {
     @Autowired
     private PurchasingService purchasingService;
@@ -30,18 +30,18 @@ public class PurchasingController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public ResponseEntity create(@RequestBody @Valid Purchase purchase) { // è buona prassi ritornare l'oggetto inserito
+    public ResponseEntity create(@RequestBody @Valid Order order) {
         try {
-            return new ResponseEntity<>(purchasingService.addPurchase(purchase), HttpStatus.OK);
+            return new ResponseEntity<>(purchasingService.addPurchase(order), HttpStatus.OK);
         } catch (QuantityProductUnavailableException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product quantity unavailable!", e); // realmente il messaggio dovrebbe essrere più esplicativo (es. specificare il prodotto di cui non vi è disponibilità)
         }
     }
 
     @GetMapping("/{user}")
-    public List<Purchase> getPurchases(@RequestBody @Valid User user) {
+    public List<Order> getOrders(@RequestBody @Valid User user) {
         try {
-            return purchasingService.getPurchasesByUser(user);
+            return purchasingService.getOrdersByUser(user);
         } catch (UserNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!", e);
         }
@@ -50,7 +50,7 @@ public class PurchasingController {
     @GetMapping("/{user}/{startDate}/{endDate}")
     public ResponseEntity getPurchasesInPeriod(@Valid @PathVariable("user") User user, @PathVariable("startDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date start, @PathVariable("endDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date end) {
         try {
-            List<Purchase> result = purchasingService.getPurchasesByUserInPeriod(user, start, end);
+            List<Order> result = purchasingService.getOrdersByUserInPeriod(user, start, end);
             if (result.isEmpty()) {
                 return new ResponseEntity<>(new ResponseMessage("No results!"), HttpStatus.OK);
             }

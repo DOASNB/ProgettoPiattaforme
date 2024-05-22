@@ -1,4 +1,4 @@
-package com.progettopiattaforme.support.authentication;
+package com.progettopiattaforme.security.authentication;
 
 
 import org.springframework.security.core.context.SecurityContextHolder;

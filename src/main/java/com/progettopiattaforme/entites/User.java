@@ -41,7 +41,7 @@ public class User {
 
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.MERGE)
     @JsonIgnore
-    private List<Purchase> purchases;
+    private List<Order> orders;
 
 
 }

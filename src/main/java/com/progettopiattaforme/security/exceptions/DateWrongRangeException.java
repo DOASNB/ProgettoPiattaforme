@@ -1,4 +1,4 @@
-package com.progettopiattaforme.support.exceptions;
+package com.progettopiattaforme.security.exceptions;
 
 
 public class DateWrongRangeException extends Exception {

@@ -3,14 +3,14 @@ package com.progettopiattaforme.services;
 
 import com.progettopiattaforme.entites.Product;
 import com.progettopiattaforme.entites.ProductInPurchase;
-import com.progettopiattaforme.entites.Purchase;
+import com.progettopiattaforme.entites.Order;
 import com.progettopiattaforme.entites.User;
-import com.progettopiattaforme.support.exceptions.DateWrongRangeException;
-import com.progettopiattaforme.support.exceptions.QuantityProductUnavailableException;
-import com.progettopiattaforme.support.exceptions.UserNotFoundException;
+import com.progettopiattaforme.security.exceptions.DateWrongRangeException;
+import com.progettopiattaforme.security.exceptions.QuantityProductUnavailableException;
+import com.progettopiattaforme.security.exceptions.UserNotFoundException;
 
 import com.progettopiattaforme.repositories.ProductInPurchaseRepository;
-import com.progettopiattaforme.repositories.PurchaseRepository;
+import com.progettopiattaforme.repositories.OrderRepository;
 import com.progettopiattaforme.repositories.UserRepository;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class PurchasingService {
     @Autowired
-    private PurchaseRepository purchaseRepository;
+    private OrderRepository orderRepository;
     @Autowired
     private ProductInPurchaseRepository productInPurchaseRepository;
     @Autowired
@@ -33,10 +33,10 @@ public class PurchasingService {
 
 
     @Transactional(readOnly = false)
-    public Purchase addPurchase(Purchase purchase) throws QuantityProductUnavailableException {
-        Purchase result = purchaseRepository.save(purchase);
+    public Order addPurchase(Order order) throws QuantityProductUnavailableException {
+        Order result = orderRepository.save(order);
         for ( ProductInPurchase pip : result.getProductsInPurchase() ) {
-            pip.setPurchase(result);
+            pip.setOrder(result);
             ProductInPurchase justAdded = productInPurchaseRepository.save(pip);
             entityManager.refresh(justAdded);
             Product product = justAdded.getProduct();
@@ -52,27 +52,27 @@ public class PurchasingService {
     }
 
     @Transactional(readOnly = true)
-    public List<Purchase> getPurchasesByUser(User user) throws UserNotFoundException {
+    public List<Order> getOrdersByUser(User user) throws UserNotFoundException {
         if ( !userRepository.existsById(user.getId()) ) {
             throw new UserNotFoundException();
         }
-        return purchaseRepository.findByBuyer(user);
+        return orderRepository.findByBuyer(user);
     }
 
     @Transactional(readOnly = true)
-    public List<Purchase> getPurchasesByUserInPeriod(User user, Date startDate, Date endDate) throws UserNotFoundException, DateWrongRangeException {
+    public List<Order> getOrdersByUserInPeriod(User user, Date startDate, Date endDate) throws UserNotFoundException, DateWrongRangeException {
         if ( !userRepository.existsById(user.getId()) ) {
             throw new UserNotFoundException();
         }
         if ( startDate.compareTo(endDate) >= 0 ) {
             throw new DateWrongRangeException();
         }
-        return purchaseRepository.findByBuyerInPeriod(startDate, endDate, user);
+        return orderRepository.findByBuyerInPeriod(startDate, endDate, user);
     }
 
     @Transactional(readOnly = true)
-    public List<Purchase> getAllPurchases() {
-        return purchaseRepository.findAll();
+    public List<Order> getAllPurchases() {
+        return orderRepository.findAll();
     }
 
 

@@ -1,6 +1,5 @@
 package com.progettopiattaforme.repositories;
 
-import com.progettopiattaforme.entites.Purchase;
 import com.progettopiattaforme.entites.ProductInPurchase;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.*;

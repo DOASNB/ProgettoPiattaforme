@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.progettopiattaforme.support.ResponseMessage;
-import com.progettopiattaforme.support.exceptions.BarCodeAlreadyExistException;
+import com.progettopiattaforme.security.ResponseMessage;
+import com.progettopiattaforme.security.exceptions.BarCodeAlreadyExistException;
 
 
 import java.util.List;

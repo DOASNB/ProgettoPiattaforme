@@ -1,5 +1,5 @@
 
-CREATE SCHEMA store;
+
 
 
 CREATE SEQUENCE user_seq;
@@ -14,6 +14,8 @@ CREATE TABLE "user" (
 	address VARCHAR(150)
 );
 
+CREATE TYPE category as ENUM('DECORAZIONE','STRUMENTO','GIOCATTOLO');
+
 CREATE SEQUENCE product_seq;
 
 CREATE TABLE product (
@@ -22,16 +24,20 @@ CREATE TABLE product (
 	code VARCHAR(70),
 	description VARCHAR(500),
 	price FLOAT,
-	quantity INTEGER
+	quantity INTEGER,
+    category category
 
 );
 
-CREATE SEQUENCE purchase_seq;
+CREATE SEQUENCE order_seq;
 
-CREATE TABLE purchase (
-	id INTEGER DEFAULT NEXTVAL ('purchase_seq') PRIMARY KEY,
+CREATE TABLE "order" (
+	id INTEGER DEFAULT NEXTVAL ('order_seq') PRIMARY KEY,
 	buyer INTEGER,
 	purchase_time TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
+    expected_delivery DATE,
+    purchase_date DATE DEFAULT CURRENT_DATE,
+    delivery_address VARCHAR(150),
     FOREIGN KEY (buyer) REFERENCES "user" (id)
 );
 	
@@ -42,24 +48,11 @@ CREATE TABLE product_in_purchase (
 	related_purchase INTEGER,
 	product INTEGER,
 	quantity INTEGER,
-    FOREIGN KEY (related_purchase) REFERENCES purchase (id),
+    FOREIGN KEY (related_purchase) REFERENCES "order" (id),
     FOREIGN KEY (product) REFERENCES product (id)
 );
 
-CREATE SEQUENCE delivery_seq;
 
-DROP TABLE delivery;
-CREATE TABLE delivery (
-    id INTEGER DEFAULT NEXTVAL('delivery_seq') PRIMARY KEY ,
-    starting_date DATE DEFAULT CURRENT_DATE,
-    delivery_date DATE,
-    related_purchase INTEGER,
-    delivered BOOLEAN DEFAULT false,
-    address VARCHAR(80),
-    shipped BOOLEAN DEFAULT false,
 
-    FOREIGN KEY (related_purchase) REFERENCES purchase (id)
-
-);
 
 

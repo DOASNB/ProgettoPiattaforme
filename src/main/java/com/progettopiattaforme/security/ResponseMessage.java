@@ -1,4 +1,4 @@
-package com.progettopiattaforme.support;
+package com.progettopiattaforme.security;
 
 
 public class ResponseMessage {
