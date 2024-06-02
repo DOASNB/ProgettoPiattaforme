@@ -16,16 +16,20 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     url: jdbc:postgresql://localhost:5432/postgres
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
 
       ddl-auto: update
+    properties:
+      hibernate:
+        default_schema: store
 
 jwt:
   auth:
     converter:
-      resource-id: fakestore-flutter
+      resource-id: progetto-rest-api
       principle-attribute: preferred_username
 
 server:

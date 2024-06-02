@@ -12,6 +12,8 @@ CREATE TABLE "user" (
 	phone_number VARCHAR(20),
 	email VARCHAR(90),
 	address VARCHAR(150)
+
+
 );
 
 CREATE TYPE category as ENUM('DECORAZIONE','STRUMENTO','GIOCATTOLO');
@@ -35,9 +37,7 @@ CREATE TABLE "order" (
 	id INTEGER DEFAULT NEXTVAL ('order_seq') PRIMARY KEY,
 	buyer INTEGER,
 	purchase_time TIMESTAMP(0) DEFAULT CURRENT_TIMESTAMP,
-    expected_delivery DATE,
     purchase_date DATE DEFAULT CURRENT_DATE,
-    delivery_address VARCHAR(150),
     FOREIGN KEY (buyer) REFERENCES "user" (id)
 );
 	

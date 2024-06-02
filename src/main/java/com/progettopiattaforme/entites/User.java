@@ -1,9 +1,9 @@
 package com.progettopiattaforme.entites;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -14,10 +14,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
-
-    @Basic
-    @Column(name = "code", nullable = true, length = 70)
-    private String code;
 
     @Basic
     @Column(name = "firstname", nullable = true, length = 50)
@@ -39,9 +35,12 @@ public class User {
     @Column(name = "address", nullable = true, length = 150)
     private String address;
 
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.MERGE)
     @JsonIgnore
-    private List<Order> orders;
+    @ManyToMany(targetEntity = Product.class,cascade = CascadeType.ALL)
+    private Set<Product> favorites;
+
+
+
 
 
 }

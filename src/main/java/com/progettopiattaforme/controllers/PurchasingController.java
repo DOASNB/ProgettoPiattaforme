@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import com.progettopiattaforme.security.ResponseMessage;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
+
 public class PurchasingController {
     @Autowired
     private PurchasingService purchasingService;
@@ -39,7 +41,8 @@ public class PurchasingController {
     }
 
     @GetMapping("/{user}")
-    public List<Order> getOrders(@RequestBody @Valid User user) {
+
+    public List<Order> getOrders(@RequestBody @Valid @PathVariable("user") User user) {
         try {
             return purchasingService.getOrdersByUser(user);
         } catch (UserNotFoundException e) {

@@ -5,9 +5,11 @@ package com.progettopiattaforme.entites;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.progettopiattaforme.support.Category;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;
+
 
 
 @Data
@@ -40,13 +42,21 @@ public class Product {
     @Column(name = "quantity", nullable = true)
     private int quantity;
 
-    @Enumerated
-    @Column(name = "category", nullable = true, length = 50)
+    @Basic
+    @Column(name = "image_name",nullable = true)
+    private String imageName;
+
+    @Version
+    @Column
+    private int version;
 
     @OneToMany(targetEntity = ProductInPurchase.class, mappedBy = "product", cascade = CascadeType.MERGE)
     @JsonIgnore
     @ToString.Exclude
     private List<ProductInPurchase> productsInPurchase;
+
+
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.progettopiattaforme.repositories;
 
 import com.progettopiattaforme.entites.Product;
+import com.progettopiattaforme.entites.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.*;
 import java.util.List;
@@ -17,5 +18,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "WHERE (p.name LIKE ?1 OR ?1 IS NULL) AND " +
             "      (p.description LIKE ?2 OR ?2 IS NULL)")
     List<Product> advancedSearch(String name, String description);
+
+    @Query("select p " +
+            "from Product p JOIN UserFavorite AS uf ON p.id = uf.favorites.id " +
+            "AND uf.user.id = ?1")
+    List<Product> findFavorites(int userId);
+
+    //List<Product> findByFavoredBy(User favoredBy);
+
 
 }

@@ -1,0 +1,6 @@
+#FileLock
+#Sun Jun 02 12:07:55 CEST 2024
+hostName=192.168.1.106
+id=18fd86b8107f68a6b4b9b5951124c479c38c7d699e4
+method=file
+server=192.168.1.106\:51582
