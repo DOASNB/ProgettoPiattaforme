@@ -72,8 +72,8 @@ public class ProductsController {
     }
 
     @GetMapping("/favoritesList")
-    public ResponseEntity favorites(@RequestParam(required = true) String email) {
-        List<Product> result = productService.showFavoredProducts(email);
+    public ResponseEntity favorites(@RequestParam(required = true) int userId) {
+        List<Product> result = productService.showFavoredProducts(userId);
         if ( result.size() <= 0 ) {
             return new ResponseEntity<>(new ResponseMessage("No results!"), HttpStatus.NO_CONTENT);
         }
@@ -82,17 +82,17 @@ public class ProductsController {
 
     @PostMapping("/favorite")
     public ResponseEntity favorite(@RequestBody Map<String,String> request){
-        String username = request.get("username");
-        String productCode = request.get("productCode");
+        int userId = Integer.parseInt(request.get("userId"));
+        int productId = Integer.parseInt(request.get("productId"));
 
         try {
 
-            productService.favoriteProduct(username,productCode);
+            productService.favoriteProduct(userId,productId);
 
         }catch (ProductNotFoundException e){
-            return new ResponseEntity<>(new ResponseMessage("Product not found! with code: "+productCode), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage("Product not found!"), HttpStatus.NOT_FOUND);
         }catch (UserNotFoundException e){
-            return new ResponseEntity<>(new ResponseMessage("User not found! with email: "+username), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage("User not found!"), HttpStatus.NOT_FOUND);
         }catch (RuntimeException e){
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -101,19 +101,20 @@ public class ProductsController {
 
     }
 
+    @PreAuthorize("hasRole('utente')")
     @PostMapping("/unFavorite")
     public ResponseEntity unFavorite(@RequestBody Map<String,String> request){
-        String username = request.get("username");
-        String productCode = request.get("productCode");
+        int userId = Integer.parseInt(request.get("userId"));
+        int productId = Integer.parseInt(request.get("productId"));
 
 
         try {
-            productService.unFavoriteProduct(username,productCode);
+            productService.unFavoriteProduct(userId,productId);
 
         }catch (ProductNotFoundException e){
-            return new ResponseEntity<>(new ResponseMessage("Product not found! with code: "+productCode), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage("Product not found! with code: "), HttpStatus.NOT_FOUND);
         }catch (UserNotFoundException e){
-            return new ResponseEntity<>(new ResponseMessage("User not found! with email: "+username), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage("User not found! with email: "), HttpStatus.NOT_FOUND);
         }catch (RuntimeException e){
             return new ResponseEntity<>(new ResponseMessage(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -28,15 +28,14 @@ public class Order {
     private Date purchaseTime;
 
 
-
     @ManyToOne
     @JoinColumn(name = "buyer")
     private User buyer;
 
 
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.MERGE)
     private List<ProductInPurchase> productsInPurchase;
+}
 
     // preferiti(user) =>> prodotti
 
@@ -44,4 +43,3 @@ public class Order {
 
 
 
-}

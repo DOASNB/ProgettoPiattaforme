@@ -15,8 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     boolean existsByBarCode(String barCode);
     @Query("SELECT p " +
             "FROM Product p " +
-            "WHERE (p.name LIKE ?1 OR ?1 IS NULL) AND " +
-            "      (p.description LIKE ?2 OR ?2 IS NULL)")
+            "WHERE (p.name ILIKE ?1 OR ?1 IS NULL) OR " +
+            "      (p.description ILIKE ?2 OR ?2 IS NULL)")
     List<Product> advancedSearch(String name, String description);
 
     @Query("select p " +

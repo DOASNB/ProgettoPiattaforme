@@ -40,6 +40,16 @@ public class PurchasingService {
     public Order addPurchase(Order order) throws QuantityProductUnavailableException {
         int maxRetries = 3;
         int attempt = 0;
+
+        for (ProductInPurchase pip : order.getProductsInPurchase()) {
+            Product product = productRepository.findByBarCode(pip.getProduct().getBarCode()).get(0);
+            int newQuantity = product.getQuantity() - pip.getQuantity();
+            if (newQuantity < 0) {
+                throw new QuantityProductUnavailableException("Product " + product.getBarCode() + " is unavailable.");
+            }
+        }
+
+
         while (attempt < maxRetries){
         try {
             Order result = orderRepository.save(order);
@@ -50,7 +60,7 @@ public class PurchasingService {
                 Product product = productRepository.findByBarCode(justAdded.getProduct().getBarCode()).get(0);
                 int newQuantity = product.getQuantity() - pip.getQuantity();
                 if (newQuantity < 0) {
-                    throw new QuantityProductUnavailableException();
+                    throw new QuantityProductUnavailableException("Product " + product.getBarCode() + " is unavailable.");
                 }
                 product.setQuantity(newQuantity);
                 productRepository.save(product);

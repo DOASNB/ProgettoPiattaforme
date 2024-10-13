@@ -29,19 +29,19 @@ public class PurchasingController {
     @Autowired
     private PurchasingService purchasingService;
 
-
+    @PreAuthorize("hasRole('utente')")
     @PostMapping
     @ResponseStatus(code = HttpStatus.OK)
     public ResponseEntity create(@RequestBody @Valid Order order) {
         try {
             return new ResponseEntity<>(purchasingService.addPurchase(order), HttpStatus.OK);
         } catch (QuantityProductUnavailableException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product quantity unavailable!", e); // realmente il messaggio dovrebbe essrere più esplicativo (es. specificare il prodotto di cui non vi è disponibilità)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Product quantity unavailable!", e);
         }
     }
 
+    @PreAuthorize("hasRole('utente')")
     @GetMapping("/{user}")
-
     public List<Order> getOrders(@RequestBody @Valid @PathVariable("user") User user) {
         try {
             return purchasingService.getOrdersByUser(user);
@@ -49,7 +49,7 @@ public class PurchasingController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!", e);
         }
     }
-
+    @PreAuthorize("hasRole('utente')")
     @GetMapping("/{user}/{startDate}/{endDate}")
     public ResponseEntity getPurchasesInPeriod(@Valid @PathVariable("user") User user, @PathVariable("startDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date start, @PathVariable("endDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date end) {
         try {

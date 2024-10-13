@@ -33,7 +33,7 @@ public class AccountingController {
         }
     }
 
-    //@PreAuthorize("hasRole('utente')")
+    @PreAuthorize("hasRole('utente')")
     @GetMapping("/byEmail")
     public ResponseEntity getByEmail(@RequestParam(value = "email") String email){
 

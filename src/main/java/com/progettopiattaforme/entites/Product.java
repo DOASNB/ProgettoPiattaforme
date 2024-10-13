@@ -5,7 +5,6 @@ package com.progettopiattaforme.entites;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.progettopiattaforme.support.Category;
 import lombok.*;
 import jakarta.persistence.*;
 import java.util.List;

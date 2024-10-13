@@ -66,18 +66,28 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<Product>  showFavoredProducts(String email) {
+    public List<Product> showAllProductsByNamePaged(int pageNumber, int pageSize, String sortBy,String name) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        Page<Product> pagedResult = productRepository.findAll(paging);
 
-        User user = userRepository.findByEmail(email).get(0);
+        if ( pagedResult.hasContent() ) {
+            return pagedResult.getContent();
+        }
+        else {
+            return new ArrayList<>();
+        }
+    }
 
+    @Transactional(readOnly = true)
+    public List<Product>  showFavoredProducts(int userid) {
 
-
-        return productRepository.findFavorites(user.getId());
+        return productRepository.findFavorites(userid);
     }
 
     @Transactional(readOnly = true)
     public List<Product> showProductsByName(String name) {
-        return productRepository.findByNameContaining(name);
+        String formattedName = "%"+name+"%";
+        return productRepository.advancedSearch(formattedName,formattedName);
     }
 
     @Transactional(readOnly = true)
@@ -87,15 +97,10 @@ public class ProductService {
 
 
     @Transactional(readOnly = false)
-    public void favoriteProduct(String username, String barCode) throws UserNotFoundException, ProductNotFoundException {
+    public void favoriteProduct(int userId, int productId) throws UserNotFoundException, ProductNotFoundException {
 
-        if ( productRepository.existsByBarCode(barCode) && userRepository.existsByEmail(username)) {
-
-            User user = userRepository.findByEmail(username).get(0);
-            Product product = productRepository.findByBarCode(barCode).get(0);
-
-
-
+            User user = userRepository.findById(userId).get();
+            Product product = productRepository.findById(productId).get();
 
             UserFavorite userFavorite = new UserFavorite();
             userFavorite.setUser(user);
@@ -106,27 +111,13 @@ public class ProductService {
             userFavorite.setId(userFavoriteId);
             userFavoriteRepository.save(userFavorite);
 
-        }else {
-            if(!userRepository.existsByEmail(username)){throw new UserNotFoundException();}
-            if(!productRepository.existsByBarCode(barCode)){throw new ProductNotFoundException();}
-            throw new RuntimeException();
-
-        }
-
-
     }
 
     @Transactional(readOnly = false)
-    public void unFavoriteProduct(String username, String barCode) throws UserNotFoundException, ProductNotFoundException {
+    public void unFavoriteProduct(int userId   , int productId) throws UserNotFoundException, ProductNotFoundException {
 
-
-
-
-        if ( !productRepository.existsByBarCode(barCode)) {throw new ProductNotFoundException();}
-        if(!userRepository.existsByEmail(username)){throw new UserNotFoundException();}
-
-        User user = userRepository.findByEmail(username).get(0);
-        Product product = productRepository.findByBarCode(barCode).get(0);
+        User user = userRepository.findById(userId).get();
+        Product product = productRepository.findById(productId).get();
 
         UserFavoriteId userFavoriteId = new UserFavoriteId();
         userFavoriteId.setUserId(user.getId());
