@@ -82,7 +82,7 @@ public class PurchasingService {
         if ( !userRepository.existsById(user.getId()) ) {
             throw new UserNotFoundException();
         }
-        return orderRepository.findByBuyer(user);
+        return orderRepository.findByBuyerOrderByPurchaseTimeDesc(user);
     }
 
     @Transactional(readOnly = true)

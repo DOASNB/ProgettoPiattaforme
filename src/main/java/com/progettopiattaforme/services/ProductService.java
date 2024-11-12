@@ -8,7 +8,7 @@ import com.progettopiattaforme.entites.Product;
 import com.progettopiattaforme.entites.User;
 import com.progettopiattaforme.entites.UserFavorite;
 import com.progettopiattaforme.entites.UserFavoriteId;
-import com.progettopiattaforme.exceptions.ProductNotFoundException;
+import com.progettopiattaforme.security.authentication.exceptions.ProductNotFoundException;
 import com.progettopiattaforme.repositories.ProductRepository;
 import com.progettopiattaforme.repositories.UserFavoriteRepository;
 

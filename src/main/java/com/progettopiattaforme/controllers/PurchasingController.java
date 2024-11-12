@@ -48,7 +48,7 @@ public class PurchasingController {
         } catch (UserNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found!", e);
         }
-    }
+    }/*
     @PreAuthorize("hasRole('utente')")
     @GetMapping("/{user}/{startDate}/{endDate}")
     public ResponseEntity getPurchasesInPeriod(@Valid @PathVariable("user") User user, @PathVariable("startDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date start, @PathVariable("endDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date end) {
@@ -59,11 +59,11 @@ public class PurchasingController {
             }
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (UserNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found XXX!", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found", e);
         } catch (DateWrongRangeException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date must be previous end date XXX!", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date must be previous end date", e);
         }
-    }
+    }*/
 
 
 }

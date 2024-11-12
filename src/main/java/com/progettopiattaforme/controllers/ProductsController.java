@@ -3,7 +3,7 @@ package com.progettopiattaforme.controllers;
 
 
 import com.progettopiattaforme.entites.Product;
-import com.progettopiattaforme.exceptions.ProductNotFoundException;
+import com.progettopiattaforme.security.authentication.exceptions.ProductNotFoundException;
 import com.progettopiattaforme.security.exceptions.UserNotFoundException;
 import jakarta.validation.Valid;
 
