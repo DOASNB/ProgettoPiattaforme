@@ -21,27 +21,25 @@ import java.util.stream.Stream;
 @Component
 public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-    //classe usata per convertire un oggetto Jwt (json web token) in oggetto di autenticazione SpringSecurity di tipo AbstractAuthenticationToken
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
-            new JwtGrantedAuthoritiesConverter();//converte i ruoli/gruppi presenti nel JWT in oggetti GrantedAuthority
-
+            new JwtGrantedAuthoritiesConverter();
 
     @Value("${jwt.auth.converter.principle-attribute}")
-    private String principleAttribute;//nome dell'attributo principale nel token JWT
+    private String principleAttribute;
 
     @Value("progetto1")
-    private String resourceId;//identificatore della risorsa associato al token JWT
+    private String resourceId;
 
     @Override
-    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {//implementa la logica di conversione del token JWT in oggetto per SpringSecurity
-        Collection<GrantedAuthority> authorities = Stream.concat(//rappresenta una collezione dei ruoli/gruppi presenti nel token JWT
-                jwtGrantedAuthoritiesConverter.convert(jwt).stream(),//convertiamo
-                extractResourceRoles(jwt).stream()//estrare i ruoli/gruppi dalla risorsa jwt
-                //concateniamo in un unico stream
+    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
+        Collection<GrantedAuthority> authorities = Stream.concat(
+                jwtGrantedAuthoritiesConverter.convert(jwt).stream(),
+                extractResourceRoles(jwt).stream()
+
         ).collect(Collectors.toSet());
 
-        return new JwtAuthenticationToken(//viene restituito un nuovo oggetto JwtAuthentication
+        return new JwtAuthenticationToken(
                 jwt,
                 authorities,
                 getPrincipleClaimName(jwt)
@@ -53,14 +51,14 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         Map<String, Object> resource;
         Collection<String> resourceRoles;
 
-        if(jwt.getClaim("resource_access") == null){//non abbiamo resource_access
-            return Set.of(); //restituiamo una Collection vuota
+        if(jwt.getClaim("resource_access") == null){
+            return Set.of();
         }
 
         resourceAccess = jwt.getClaim("resource_access");
 
         if(resourceAccess.get(resourceId) == null){
-            return Set.of();//non ho alcun ruolo per questa specifica risorsa
+            return Set.of();
         }
 
         resource =(Map<String, Object>)resourceAccess.get(resourceId);
@@ -70,8 +68,8 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         return resourceRoles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toSet());
     }
 
-    private String getPrincipleClaimName(Jwt jwt){//restituisce il valore dell'attributo principale
-        String claimName = JwtClaimNames.SUB;//default di keycloak restituito
+    private String getPrincipleClaimName(Jwt jwt){
+        String claimName = JwtClaimNames.SUB;
 
         if(principleAttribute != null){
             claimName = principleAttribute;
